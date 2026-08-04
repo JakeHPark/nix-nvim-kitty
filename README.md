@@ -14,6 +14,8 @@ Terminal launches through `vi`, `vim`, or `nvim` can also be found from Dolphin.
 
 The package also installs its own `nvim.desktop`. It calls `nvim-kitty`, uses `Terminal=false`, and disables startup notification.
 
+https://github.com/user-attachments/assets/ab251983-aa9c-4c46-b0c7-1544eeda679e
+
 ## Requirements
 
 This discovers Kitty's abstract remote-control socket through `/proc/net/unix`. Kitty must enable remote control and use the matching socket name:
