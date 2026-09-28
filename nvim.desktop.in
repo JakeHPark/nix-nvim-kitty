@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Neovim
+GenericName=Text Editor
+Comment=Edit files in Neovim
+Exec=@out@/bin/nvim-kitty %F
+TryExec=@out@/bin/nvim-kitty
+Icon=nvim
+Terminal=false
+Type=Application
+Categories=Utility;TextEditor;
+MimeType=text/plain;text/markdown;
+StartupNotify=false
