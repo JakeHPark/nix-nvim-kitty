@@ -336,6 +336,8 @@ home-manager.users.jakehpark = {
 };
 ```
 
+If you want inspiration for a minimal Neovim configuration, check out [mine](https://gist.github.com/JakeHPark/8d3595e186788c6598bde51e6d029e3a).
+
 ## Binaries
 
 - `nvim-kitty`: Dolphin/desktop launcher.
