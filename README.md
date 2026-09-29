@@ -169,7 +169,7 @@ When `programs.nvim-kitty.enable = true;`, the Home Manager module adds `program
 programs.kitty.enable = true;
 ```
 
-All of the options to follow are enabled by default, since the assumption is that anyone using this is using Kitty and Neovim as their main terminal and editor. I know this is opinionated, but you can just not use the Home Manager module if you don't like it.
+The Kitty options to follow are enabled by default, since the assumption is that anyone using this is using Kitty and Neovim as their main terminal and editor. The Plasma options are enabled by default only when the Home Manager module can see that NixOS Plasma is enabled through `osConfig`, such as when Home Manager is used through the NixOS Home Manager module. I know this is opinionated, but you can just not use the Home Manager module if you don't like it.
 
 #### Miscellaneous Kitty defaults
 
@@ -237,7 +237,7 @@ These bindings make Kitty tabs behave more like browser/editor tabs: create, clo
 
 #### Plasma/KConfig defaults
 
-`programs.nvim-kitty.plasmaFocusStealingFix = true;` patches `.config/kwinrc` with:
+`programs.nvim-kitty.plasmaFocusStealingFix` defaults to true only when the module detects NixOS Plasma. When enabled, it patches `.config/kwinrc` with:
 
 ```nix
 [Windows]
@@ -246,7 +246,7 @@ FocusStealingPreventionLevel=0
 
 This lets `nvim-kitty` focus the Kitty window after it selects an existing Neovim buffer or opens a new tab. Without it, Plasma on Wayland may show an attention marker in the taskbar instead of actually raising/focusing Kitty.
 
-`programs.nvim-kitty.plasmaDefaultTerminal = true;` also sets:
+`programs.nvim-kitty.plasmaDefaultTerminal` uses the same detected default. When enabled, it also sets:
 
 ```nix
 [General]
@@ -254,7 +254,7 @@ TerminalApplication=kitty
 TerminalService=kitty.desktop
 ```
 
-This makes KDE applications that ask Plasma for the preferred terminal use Kitty. For example, file managers and desktop actions that open a terminal should resolve to Kitty instead of another installed terminal emulator. The generated activation entries use `mkDefault`, so you can replace them from your own Home Manager configuration if needed.
+This makes KDE applications that ask Plasma for the preferred terminal use Kitty. For example, file managers and desktop actions that open a terminal should resolve to Kitty instead of another installed terminal emulator. The generated activation entries use `mkDefault`, so you can replace them from your own Home Manager configuration if needed. If you use Home Manager standalone on a Plasma system, set these options explicitly because there is no NixOS `osConfig` available to inspect.
 
 Disable groups of Home Manager defaults with:
 

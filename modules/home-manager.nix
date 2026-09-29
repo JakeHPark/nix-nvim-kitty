@@ -45,6 +45,23 @@ let
     }) (builtins.genList (index: toString (index + 1)) 9)
   );
 
+  boolByPath = path: if osConfig == null then false else lib.attrByPath path false osConfig;
+
+  plasmaEnabled =
+    boolByPath [
+      "services"
+      "desktopManager"
+      "plasma6"
+      "enable"
+    ]
+    || boolByPath [
+      "services"
+      "xserver"
+      "desktopManager"
+      "plasma5"
+      "enable"
+    ];
+
 in
 {
   options.programs.nvim-kitty = {
@@ -84,13 +101,15 @@ in
 
     plasmaFocusStealingFix = lib.mkOption {
       type = lib.types.bool;
-      default = true;
+      default = plasmaEnabled;
+      defaultText = lib.literalExpression "true when NixOS Plasma is enabled, otherwise false";
       description = "Whether to configure KWin to allow nvim-kitty to focus Kitty.";
     };
 
     plasmaDefaultTerminal = lib.mkOption {
       type = lib.types.bool;
-      default = true;
+      default = plasmaEnabled;
+      defaultText = lib.literalExpression "true when NixOS Plasma is enabled, otherwise false";
       description = "Whether to configure KDE to use Kitty as the default terminal.";
     };
   };
