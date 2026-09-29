@@ -14,26 +14,6 @@ When you open multiple files, it will open them all in different buffers in the 
 
 The package also installs its own `nvim.desktop`. It calls `nvim-kitty`, uses `Terminal=false`, and disables startup notification.
 
-## Requirements
-
-This discovers Kitty's abstract remote-control socket through `/proc/net/unix`. Kitty must enable remote control and use the matching socket name:
-
-```nix
-programs.kitty.settings = {
-  allow_remote_control = "socket-only";
-  listen_on = "unix:@kitty-main";
-};
-```
-
-The default `kittySocketName` is `"kitty-main"`.
-
-On Plasma/Wayland, KWin may turn an external focus request into an orange taskbar attention marker. The Home Manager module, if enabled, uses [Nix Home Utils](https://github.com/JakeHPark/nix-home-utils)' KConfig patching helper to set this in `~/.config/kwinrc`:
-
-```nix
-[Windows]
-FocusStealingPreventionLevel=0
-```
-
 ## Use the stock Neovim package
 
 Add the flake input:
@@ -55,6 +35,26 @@ nixpkgs.overlays = [ inputs.nix-nvim-kitty.overlays.default ];
 
 ```text
 environment.systemPackages = [ pkgs.nvim-kitty ];
+```
+
+## Requirements
+
+This integration discovers Kitty's abstract remote-control socket through `/proc/net/unix`. Kitty must enable remote control and use the matching socket name. In Home Manager:
+
+```nix
+programs.kitty.settings = {
+  allow_remote_control = "socket-only";
+  listen_on = "unix:@kitty-main";
+};
+```
+
+The default `kittySocketName` is `"kitty-main"`.
+
+On Plasma/Wayland, KWin may turn an external focus request into an orange taskbar attention marker. The Home Manager module, if enabled, uses [Nix Home Utils](https://github.com/JakeHPark/nix-home-utils)' KConfig patching helper to set this in `~/.config/kwinrc`:
+
+```nix
+[Windows]
+FocusStealingPreventionLevel=0
 ```
 
 ## Wrap an already configured Neovim package
@@ -89,6 +89,8 @@ final.makeNvimKittyPackage {
 ```nix
 programs.kitty.settings.listen_on = "unix:@my-kitty-socket";
 ```
+
+If you don't want to deal with the headache of configuring socket names and other options, just enable the following modules.
 
 ## Use the modules for sensible defaults
 
